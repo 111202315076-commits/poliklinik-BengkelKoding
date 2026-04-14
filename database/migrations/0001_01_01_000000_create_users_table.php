@@ -13,24 +13,34 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
+
+            // DATA USER
             $table->string('name');
             $table->string('alamat')->nullable();
             $table->string('no_ktp')->nullable();
             $table->string('no_hp')->nullable();
             $table->string('no_rm', 25)->nullable();
-            $table->enum('role', ['admin', 'dokter', 'pasien'])->nullable();
+
+            // ROLE
+            $table->enum('role', ['admin', 'dokter', 'pasien'])
+                  ->default('pasien');
+
+            // LOGIN
             $table->string('email')->unique();
             $table->string('password');
             $table->rememberToken();
+
             $table->timestamps();
         });
 
+        // PASSWORD RESET
         Schema::create('password_reset_tokens', function (Blueprint $table) {
             $table->string('email')->primary();
             $table->string('token');
             $table->timestamp('created_at')->nullable();
         });
 
+        // SESSION
         Schema::create('sessions', function (Blueprint $table) {
             $table->string('id')->primary();
             $table->foreignId('user_id')->nullable()->index();
@@ -46,8 +56,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
-        Schema::dropIfExists('password_reset_tokens');
         Schema::dropIfExists('sessions');
+        Schema::dropIfExists('password_reset_tokens');
+        Schema::dropIfExists('users');
     }
 };

@@ -13,12 +13,13 @@ class PoliController extends Controller
         $polis = Poli::all();
         return view('admin.polis.index', compact('polis'));
     }
+
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
-        return view('admin.polis.create');
+        return view('admin.polis.create'); // ✅ fix folder
     }
 
     /**
@@ -32,15 +33,9 @@ class PoliController extends Controller
         ]);
 
         Poli::create($validated);
-        return redirect()->route('polis.index')->with('success', 'Poli berhasil ditambahkan!');
-    }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
+        return redirect()->route('admin.polis.index')
+            ->with('success', 'Poli berhasil ditambahkan!');
     }
 
     /**
@@ -49,6 +44,7 @@ class PoliController extends Controller
     public function edit(string $id)
     {
         $poli = Poli::findOrFail($id);
+        
         return view('admin.polis.edit', compact('poli'));
     }
 
@@ -63,9 +59,13 @@ class PoliController extends Controller
         ]);
 
         $poli = Poli::findOrFail($id);
-        $poli->update($validated);
+        $poli->update([
+            'nama_poli' => $request->nama_poli,
+            'deskripsi' => $request->deskripsi,
+        ]);
 
-        return redirect()->route('polis.index')->with('success', 'Poli berhasil diperbarui!');
+        return redirect()->route('admin.polis.index')
+            ->with('success', 'Poli berhasil diperbarui!');
     }
 
     /**
@@ -76,6 +76,7 @@ class PoliController extends Controller
         $poli = Poli::findOrFail($id);
         $poli->delete();
 
-        return redirect()->route('polis.index')->with('success', 'Poli berhasil dihapus!');
+        return redirect()->route('admin.polis.index')
+            ->with('success', 'Poli berhasil dihapus!');
     }
 }

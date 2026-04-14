@@ -2,20 +2,18 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use App\Models\Poli;
+use App\Models\JadwalPeriksa;
 
-   class User extends Authenticatable
+class User extends Authenticatable
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
 
     /**
-     * The attributes that are mass assignable.
-     *
-     * @var list<string>
+     * Mass assignable attributes
      */
     protected $fillable = [
         'name',
@@ -27,13 +25,10 @@ use Illuminate\Notifications\Notifiable;
         'id_poli',
         'email',
         'password',
-
     ];
 
     /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var list<string>
+     * Hidden attributes
      */
     protected $hidden = [
         'password',
@@ -41,26 +36,79 @@ use Illuminate\Notifications\Notifiable;
     ];
 
     /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
+     * Attribute casting
      */
-    protected function casts(): array
-    {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-        ];
-    }
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+        'password' => 'hashed',
+    ];
+
+    /*
+    |--------------------------------------------------------------------------
+    | RELATIONSHIP
+    |--------------------------------------------------------------------------
+    */
 
     public function poli()
     {
         return $this->belongsTo(Poli::class, 'id_poli');
     }
 
+    // dokter -> jadwal periksa
     public function jadwalPeriksa()
     {
         return $this->hasMany(JadwalPeriksa::class, 'id_dokter');
     }
 
+
+
+    public function dokter()
+    {
+        return $this->hasOne(Dokter::class, 'id', 'id');
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | SCOPE (UNTUK DASHBOARD & FILTER)
+    |--------------------------------------------------------------------------
+    */
+
+    // ambil semua dokter
+    public function scopeIsDokter($query)
+    {
+        return $query->where('role', 'dokter');
+    }
+
+    // ambil semua pasien
+    public function scopeIsPasien($query)
+    {
+        return $query->where('role', 'pasien');
+    }
+
+    // ambil semua admin
+    public function scopeIsAdmin($query)
+    {
+        return $query->where('role', 'admin');
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | HELPER
+    |--------------------------------------------------------------------------
+    */
+
+    public function isDokter()
+    {
+        return $this->role === 'dokter';
+    }
+
+    public function isPasien()
+    {
+        return $this->role === 'pasien';
+    }
+
+    public function isAdmin()
+    {
+        return $this->role === 'admin';
+    }
 }

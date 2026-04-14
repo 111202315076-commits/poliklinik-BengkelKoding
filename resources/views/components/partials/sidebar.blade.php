@@ -15,11 +15,13 @@
                     class="text-[10px] font-bold uppercase tracking-wider bg-indigo-400/20 text-indigo-300 border border-indigo-400/30 px-2 py-0.5 rounded-md">
                     Admin
                 </span>
+
                 @elseif(request()->is('dokter*'))
                 <span
                     class="text-[10px] font-bold uppercase tracking-wider bg-purple-400/20 text-purple-300 border border-purple-400/30 px-2 py-0.5 rounded-md">
                     Dokter
                 </span>
+
                 @elseif(request()->is('pasien*'))
                 <span
                     class="text-[10px] font-bold uppercase tracking-wider bg-amber-400/20 text-amber-300 border border-amber-400/30 px-2 py-0.5 rounded-md">
@@ -55,10 +57,35 @@
                 <i class="fas fa-gauge-high w-4 text-center"></i>
                 Dashboard Admin
             </a>
-            <a href="{{ route('polis.index') }}"
-                class="{{ $baseLink }} {{ request()->routeIs('polis.*') ? $active : $inactive }}">
+
+            <a href="{{ route('admin.polis.index') }}"
+                class="{{ $baseLink }} {{ request()->routeIs('admin.poli.*') ? $active : $inactive }}">
                 <i class="fas fa-hospital w-4 text-center"></i>
                 Manajemen Poli
+            </a>
+
+            <a href="{{ route('admin.dokter.index') }}"
+                class="{{ $baseLink }} {{ request()->routeIs('admin.dokter.*') ? $active : $inactive }}">
+                <i class="fas fa-user-doctor w-4 text-center"></i>
+                Manajemen Dokter
+            </a>
+
+            <a href="{{ route('admin.pasien.index') }}"
+                class="{{ $baseLink }} {{ request()->routeIs('admin.pasien.*') ? $active : $inactive }}">
+                <i class="fas fa-bed-pulse w-4 text-center"></i>
+                Manajemen Pasien
+            </a>
+
+            <a href="{{ route('admin.obat.index') }}"
+                class="{{ $baseLink }} {{ request()->routeIs('admin.obat.*') ? $active : $inactive }}">
+                <i class="fas fa-pills w-4 text-center"></i>
+                Manajemen Obat
+            </a>
+
+            <a href="{{ route('admin.verifikasi_pembayaran.index') }}"
+                class="{{ $baseLink }} {{ request()->routeIs('admin.verifikasi_pembayaran.*') ? $active : $inactive }}">
+                <i class="fas fa-check-to-slot w-4 text-center"></i>
+                Verifikasi Pembayaran
             </a>
 
         </div>
@@ -74,30 +101,72 @@
 
         <div class="space-y-1">
 
+            {{-- Dashboard Pasien --}}
             <a href="{{ route('pasien.dashboard') }}"
                 class="{{ $baseLink }} {{ request()->routeIs('pasien.dashboard') ? $active : $inactive }}">
                 <i class="fas fa-house-medical w-4 text-center"></i>
-                Dashboard Pasien
+                <span>Dashboard Pasien</span>
             </a>
 
+            {{-- Daftar Poli --}}
+            <a href="{{ route('pasien.daftar_poli.index') }}"
+                class="{{ $baseLink }} {{ request()->routeIs('pasien.daftar_poli.*') ? $active : $inactive }}">
+                <i class="fas fa-calendar-check w-4 text-center"></i>
+                <span>Daftar Poli</span>
+            </a>
+
+            {{-- Riwayat Pendaftaran --}}
+            <a href="{{ route('pasien.riwayat_pendaftaran.index') }}"
+                class="{{ $baseLink }} {{ request()->routeIs('pasien.riwayat_pendaftaran.*') ? $active : $inactive }}">
+                <i class="fas fa-history w-4 text-center"></i>
+                <span>Riwayat Pendaftaran</span>
+            </a>
+
+            {{-- Pembayaran --}}
+            <a href="{{ route('pasien.pembayaran.index') }}"
+                class="{{ $baseLink }} {{ request()->routeIs('pasien.pembayaran.*') ? $active : $inactive }}">
+                <i class="fas fa-wallet w-4 text-center"></i>
+                <span>Pembayaran</span>
+            </a>
 
         </div>
         @endif
 
-
         {{-- ================= DOKTER ================= --}}
         @if(request()->is('dokter*'))
 
-        <p class="text-xs uppercase tracking-widest text-indigo-400 px-3 mb-3 mt-6">
+        <p class="text-xs font-bold uppercase tracking-widest text-indigo-400 px-3 mb-3">
             Menu Dokter
         </p>
 
         <div class="space-y-1">
 
+            {{-- Dashboard --}}
             <a href="{{ route('dokter.dashboard') }}"
                 class="{{ $baseLink }} {{ request()->routeIs('dokter.dashboard') ? $active : $inactive }}">
-                <i class="fas fa-stethoscope w-4 text-center"></i>
+                <i class="fas fa-th-large w-4 text-center"></i>
                 Dashboard Dokter
+            </a>
+
+            {{-- Jadwal Periksa --}}
+            <a href="{{ route('dokter.jadwal_periksa.index') }}"
+                class="{{ $baseLink }} {{ request()->routeIs('dokter.jadwal_periksa.*') ? $active : $inactive }}">
+                <i class="fas fa-calendar-alt w-4 text-center"></i>
+                Jadwal Periksa
+            </a>
+
+            {{-- Periksa Pasien --}}
+            <a href="{{ route('dokter.periksa_pasien.index') }}"
+                class="{{ $baseLink }} {{ request()->routeIs('dokter.periksa_pasien.*') ? $active : $inactive }}">
+                <i class="fas fa-user-md w-4 text-center"></i>
+                Periksa Pasien
+            </a>
+
+            {{-- Riwayat Pasien --}}
+            <a href="{{ route('dokter.riwayat_pasien.index') }}"
+                class="{{ $baseLink }} {{ request()->routeIs('dokter.riwayat_pasien.*') ? $active : $inactive }}">
+                <i class="fas fa-history w-4 text-center"></i>
+                Riwayat Pasien
             </a>
 
         </div>
@@ -108,7 +177,7 @@
 
     {{-- ================= LOGOUT ================= --}}
     <div class="p-4 border-t border-white/10">
-        <form method="POST" action="/logout">
+        <form method="POST" action="{{ route('logout') }}">
             @csrf
             <button type="submit"
                 class="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-red-500 hover:bg-red-600 text-white text-sm font-semibold transition-all">

@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Periksa extends Model
 {
+    use HasFactory;
+
     protected $table = 'periksa';
 
     protected $fillable = [
@@ -13,13 +16,21 @@ class Periksa extends Model
         'tgl_periksa',
         'catatan',
         'biaya_periksa',
+        'bukti_bayar',
+        'status_bayar',
     ];
 
+    /**
+     * Relasi ke DaftarPoli
+     */
     public function daftarPoli()
     {
         return $this->belongsTo(DaftarPoli::class, 'id_daftar_poli');
     }
 
+    /**
+     * Relasi ke DetailPeriksa
+     */
     public function detailPeriksas()
     {
         return $this->hasMany(DetailPeriksa::class, 'id_periksa');
