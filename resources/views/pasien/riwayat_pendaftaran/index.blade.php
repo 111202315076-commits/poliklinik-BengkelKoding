@@ -31,9 +31,9 @@
                         <td class="px-6 py-4">
                             <div class="flex items-center gap-3">
                                 <div class="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 font-bold text-xs">
-                                    {{ substr($riwayat->jadwalPeriksa->dokter->nama, 0, 1) }}
+                                    {{ substr($riwayat->jadwalPeriksa->dokter->name, 0, 1) }}
                                 </div>
-                                <span class="text-sm font-medium text-slate-600">{{ $riwayat->jadwalPeriksa->dokter->nama }}</span>
+                                <span class="text-sm font-medium text-slate-600">{{ $riwayat->jadwalPeriksa->dokter->name }}</span>
                             </div>
                         </td>
                         <td class="px-6 py-4">

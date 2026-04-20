@@ -7,7 +7,6 @@
         </p>
     </div>
 
-    {{-- Stats Cards Section (3 Kotak Atas) --}}
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
         {{-- Card Total Jadwal --}}
         <div class="bg-white p-6 rounded-[32px] shadow-sm border border-slate-100 relative overflow-hidden">
@@ -88,7 +87,7 @@
             </div>
         </div>
 
-        {{-- Right Column: Akses Cepat (Sesuai Gambar) --}}
+        {{-- Right Column: Akses Cepat --}}
         <div class="space-y-6">
             <h4 class="font-bold text-slate-800 px-2 uppercase text-xs tracking-widest">Akses Cepat</h4>
             

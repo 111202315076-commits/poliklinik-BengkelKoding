@@ -64,7 +64,7 @@
                             </td>
 
                             <td class="px-6 py-4">
-                                @if($obat->stok <= 5)
+                                @if($obat->stok <= 9)
                                     <span class="inline-block px-3 py-1 text-xs font-semibold 
                                                  rounded-full bg-red-100 text-red-600">
                                         {{ $obat->stok }} (Hampir Habis)

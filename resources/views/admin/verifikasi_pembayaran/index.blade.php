@@ -51,7 +51,7 @@
                         <td class="px-6 py-4">
                             @if($tagihan->bukti_bayar)
                                 <a href="{{ asset('storage/' . $tagihan->bukti_bayar) }}" target="_blank" class="inline-flex items-center gap-2 p-2 bg-slate-50 border border-slate-200 rounded-xl text-slate-500 hover:text-indigo-600 hover:bg-indigo-50 transition-all">
-                                    <img src="{{ asset('storage/' . $tagihan->bukti_bayar) }}" class="w-12 h-12 object-cover rounded-lg">
+                                    <img src="{{ asset('storage/app/public/bukti_bayar' . $tagihan->bukti_bayar) }}" class="w-12 h-12 object-cover rounded-lg">
                                     <span class="text-[10px] font-bold uppercase tracking-widest">LIHAT BUKTI</span>
                                 </a>
                             @else

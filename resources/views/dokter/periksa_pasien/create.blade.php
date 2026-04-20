@@ -13,11 +13,9 @@
                 <div class="space-y-3">
                     <div>
                         <p class="text-[10px] text-slate-400 uppercase font-bold tracking-wider">Nama Pasien</p>
-                        <p class="text-sm font-bold text-slate-700">Adi Hidayat</p>
                     </div>
                     <div>
                         <p class="text-[10px] text-slate-400 uppercase font-bold tracking-wider">Keluhan</p>
-                        <p class="text-sm text-slate-700 italic">"Pusing dan mual sejak tadi pagi"</p>
                     </div>
                 </div>
             </div>
