@@ -64,14 +64,18 @@
                             </td>
 
                             <td class="px-6 py-4">
-                                @if($obat->stok <= 9)
-                                    <span class="inline-block px-3 py-1 text-xs font-semibold 
-                                                 rounded-full bg-red-100 text-red-600">
+                                @if($obat->stok == 0)
+                                    <span class="inline-block px-3 py-1 text-xs font-semibold rounded-full bg-red-100 text-red-600">
+                                        Obat Habis
+                                    </span>
+
+                                @elseif($obat->stok <= 5)
+                                    <span class="inline-block px-3 py-1 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-700">
                                         {{ $obat->stok }} (Hampir Habis)
                                     </span>
+
                                 @else
-                                    <span class="inline-block px-3 py-1 text-xs font-semibold 
-                                                 rounded-full bg-blue-100 text-blue-600">
+                                    <span class="inline-block px-3 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-600">
                                         {{ $obat->stok }}
                                     </span>
                                 @endif

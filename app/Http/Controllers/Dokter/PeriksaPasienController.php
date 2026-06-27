@@ -1,22 +1,28 @@
 <?php
 
 namespace App\Http\Controllers\Dokter;
-
+use Illuminate\Support\Facades\Auth;
+use App\Events\AntrianUpdated;
 use App\Http\Controllers\Controller;
+use App\Models\DaftarPoli;
+use App\Models\DetailPeriksa;
+use App\Models\Obat;
+use App\Models\Periksa;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use App\Models\DaftarPoli;
-use App\Models\Periksa;
-use App\Models\Obat;
-use App\Models\DetailPeriksa;
-use App\Events\AntrianUpdated;
 
 class PeriksaPasienController extends Controller
 {
     public function index()
     {
         // Ambil ID User yang sedang login
-        $id_dokter = auth()->user()->id;
+        $id_dokter = Auth::id();
+
+        // Hilangkan warning intelephense tentang auth()->user() berpotensi null
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+        $id_dokter = $user->id;
+
 
         // Kita gunakan query yang lebih sederhana namun pasti
         $daftar_pasien = DaftarPoli::with(['pasien', 'jadwalPeriksa'])
