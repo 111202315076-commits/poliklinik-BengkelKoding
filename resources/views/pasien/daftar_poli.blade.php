@@ -14,7 +14,7 @@
                 {{-- Nomor Rekam Medis --}}
                 <div>
                     <label class="block text-sm font-bold text-slate-700 mb-2">Nomor Rekam Medis</label>
-                    <input type="text" value="{{ auth()->user()->pasien->no_rm ?? 'Belum Ada No. RM' }}" disabled 
+                    <input type="text" value="{{ auth()->user()->no_rm ?? 'Belum Ada No. RM' }}" disabled 
                            class="w-full bg-slate-50 border border-slate-200 rounded-2xl px-5 py-4 text-slate-500 font-medium">
                 </div>
 

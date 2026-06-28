@@ -1,59 +1,142 @@
-<x-layouts.app title="Proses Periksa Pasien">
-    <div class="mb-8 flex items-center gap-4">
-        <a href="{{ route('dokter.periksa_pasien.index') }}" class="w-10 h-10 flex items-center justify-center rounded-xl bg-white border border-slate-200 text-slate-400 hover:text-indigo-600 shadow-sm transition-all">
-            <i class="fas fa-arrow-left"></i>
+<x-layouts.app title="Periksa Pasien">
+
+    {{-- Header --}}
+    <div class="flex items-center gap-3 mb-6">
+        <a href="{{ route('periksa-pasien.index') }}" class="inline-flex items-center justify-center w-9 h-9 
+                  rounded-lg bg-slate-100 text-slate-500 
+                  hover:bg-slate-200 transition">
+            <i class="fas fa-arrow-left text-sm"></i>
         </a>
-        <h2 class="text-2xl font-bold text-slate-800">Pemeriksaan Pasien</h2>
+        <h2 class="text-2xl font-bold text-slate-800">
+            Periksa Pasien
+        </h2>
     </div>
 
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <div class="lg:col-span-1">
-            <div class="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm">
-                <h3 class="font-bold text-slate-800 mb-4 border-b pb-2">Data Pasien</h3>
-                <div class="space-y-3">
-                    <div>
-                        <p class="text-[10px] text-slate-400 uppercase font-bold tracking-wider">Nama Pasien</p>
-                    </div>
-                    <div>
-                        <p class="text-[10px] text-slate-400 uppercase font-bold tracking-wider">Keluhan</p>
+    {{-- Card --}}
+    <div class="card bg-base-100 shadow-sm rounded-2xl border border-slate-200">
+        <div class="card-body p-8">
+
+            <form action="{{ route('periksa-pasien.store') }}" method="POST">
+                @csrf
+                <input type="hidden" name="id_daftar_poli" value="{{ $id }}">
+
+                {{-- Pilih Obat --}}
+                <div class="form-control mb-5">
+                    <label class="label pb-1">
+                        <span class="text-sm font-semibold text-gray-700">Pilih Obat <span class="text-red-500">*</span></span>
+                    </label>
+                    <select id="select-obat" class="select select-bordered w-full rounded-lg border-2 px-4">
+                        <option value="">-- Pilih Obat --</option>
+                        @foreach ($obats as $obat)
+                            <option value="{{ $obat->id }}"
+                                data-nama="{{ $obat->nama_obat }}"
+                                data-harga="{{ $obat->harga }}">
+                                {{ $obat->nama_obat }} - Rp{{ number_format($obat->harga) }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+
+                {{-- Obat Terpilih --}}
+                <div class="form-control mb-5">
+                    <label class="label pb-1 ">
+                        <span class="text-sm font-semibold text-gray-700">Obat Terpilih</span>
+                    </label>
+
+                    <ul id="obat-terpilih" class="flex flex-col gap-2 mb-2 min-h-[48px]"></ul>
+
+                    <input type="hidden" name="biaya_periksa" id="biaya_periksa" value="0">
+                    <input type="hidden" name="obat_json" id="obat_json">
+                </div>
+
+                {{-- Total Harga --}}
+                <div class="form-control mb-5">
+                    <label class="label pb-1">
+                        <span class="text-sm font-semibold text-gray-700">Total Harga</span>
+                    </label>
+                    <div class="input input-bordered w-full rounded-lg flex items-center bg-slate-50 text-slate-700 font-bold" id="total-harga">
+                        Rp 0
                     </div>
                 </div>
-            </div>
-        </div>
 
-        <div class="lg:col-span-2">
-            <div class="bg-white p-8 rounded-3xl border border-slate-100 shadow-sm">
-                <form action="{{ route('dokter.periksa_pasien.store') }}" method="POST">
-                    @csrf
-                    <input type="hidden" name="id_daftar_poli" value="1">
-                    
-                    <div class="space-y-6">
-                        <div>
-                            <label class="block text-sm font-bold text-slate-700 mb-2">Tanggal Periksa</label>
-                            <input type="text" value="{{ now()->format('Y-m-d H:i') }}" readonly class="w-full px-4 py-3 bg-slate-100 border border-slate-200 rounded-xl text-slate-500 outline-none">
-                        </div>
+                {{-- Catatan --}}
+                <div class="form-control mb-8">
+                    <label class="label pb-1">
+                        <span class="text-sm font-semibold text-gray-700">Catatan <span class="text-slate-400 font-normal">(Opsional)</span></span>
+                    </label>
+                    <textarea name="catatan" id="catatan" rows="4"
+                        placeholder="Masukkan catatan..."
+                        class="textarea textarea-bordered w-full border-2 px-4 py-2 rounded-lg resize-none">{{ old('catatan') }}</textarea>
+                </div>
 
-                        <div>
-                            <label class="block text-sm font-bold text-slate-700 mb-2">Catatan / Diagnosa</label>
-                            <textarea name="catatan" rows="4" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none transition-all" placeholder="Tuliskan hasil diagnosa pasien..."></textarea>
-                        </div>
+                {{-- Buttons --}}
+                <div class="flex gap-3">
+                    <button type="submit"
+                        class="btn bg-[#2d4499] hover:bg-[#1e2d6b] text-white border-none rounded-lg px-6">
+                        <i class="fas fa-save"></i>
+                        Simpan
+                    </button>
+                    <a href="{{ route('periksa-pasien.index') }}"
+                        class="btn btn-ghost bg-slate-100 hover:bg-slate-200 text-slate-500 rounded-lg px-6">
+                        Batal
+                    </a>
+                </div>
 
-                        <div>
-                            <label class="block text-sm font-bold text-slate-700 mb-2">Obat</label>
-                            <select name="obat[]" multiple class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none">
-                                {{-- Looping data obat dari database --}}
-                                <option value="1">Paracetamol - Rp 5.000</option>
-                                <option value="2">Amoxicillin - Rp 10.000</option>
-                            </select>
-                            <p class="mt-2 text-[10px] text-slate-400 font-medium">*Tahan Ctrl untuk memilih lebih dari satu obat</p>
-                        </div>
-
-                        <button type="submit" class="w-full bg-indigo-900 text-white py-4 rounded-2xl font-bold shadow-lg shadow-indigo-100 hover:bg-indigo-800 transition-all">
-                            Simpan & Selesai Periksa
-                        </button>
-                    </div>
-                </form>
-            </div>
+            </form>
         </div>
     </div>
+
+    <script>
+        const selectObat = document.getElementById('select-obat');
+        const listObat = document.getElementById('obat-terpilih');
+        const inputBiaya = document.getElementById('biaya_periksa');
+        const inputObatJson = document.getElementById('obat_json');
+        const totalHargaEl = document.getElementById('total-harga');
+
+        let daftarObat = [];
+
+        selectObat.addEventListener('change', () => {
+            const selectedOption = selectObat.options[selectObat.selectedIndex];
+            const id = selectedOption.value;
+            const nama = selectedOption.dataset.nama;
+            const harga = parseInt(selectedOption.dataset.harga || 0);
+
+            if (!id || daftarObat.some(o => o.id == id)) return;
+
+            daftarObat.push({ id, nama, harga });
+            renderObat();
+            selectObat.selectedIndex = 0;
+        });
+
+        function renderObat() {
+            listObat.innerHTML = '';
+            let total = 0;
+
+            daftarObat.forEach((obat, index) => {
+                total += obat.harga;
+
+                const item = document.createElement('li');
+                item.className = 'flex items-center justify-between px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-700';
+                item.innerHTML = `
+                    <span>${obat.nama} — <span class="font-semibold">Rp ${obat.harga.toLocaleString()}</span></span>
+                    <button type="button"
+                        onclick="hapusObat(${index})"
+                        class="btn btn-sm bg-red-500 hover:bg-red-600 text-white border-none rounded-lg px-3">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                `;
+                listObat.appendChild(item);
+            });
+
+            inputBiaya.value = total;
+            totalHargaEl.textContent = `Rp ${total.toLocaleString()}`;
+            inputObatJson.value = JSON.stringify(daftarObat.map(o => o.id));
+        }
+
+        function hapusObat(index) {
+            daftarObat.splice(index, 1);
+            renderObat();
+        }
+    </script>
+
 </x-layouts.app>
